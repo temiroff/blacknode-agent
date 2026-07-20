@@ -1,0 +1,32 @@
+[package]
+name = "blacknode-agent"
+version = "0.1.0"
+description = "Planning, memory, mission review, confirmation, and skill orchestration for Blacknode."
+requires-blacknode = ">=0.1.0"
+layer = "agent"
+component-mode = true
+
+[components.planner]
+description = "Mission and task planning over registered capabilities."
+default = false
+capabilities = ["agent.planner"]
+
+[components.skill-registry]
+description = "Discovery and selection of installed task skills."
+default = false
+capabilities = ["agent.skill-registry"]
+
+[components.mission-review]
+description = "Preflight mission review and explainable execution plans."
+default = false
+capabilities = ["agent.mission-review"]
+
+[components.confirmation]
+description = "Human confirmation gates for consequential actions."
+default = false
+capabilities = ["agent.confirmation"]
+
+[components.memory]
+description = "Mission-scoped and durable agent memory contracts."
+default = false
+capabilities = ["agent.memory"]
