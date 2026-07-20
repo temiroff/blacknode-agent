@@ -2,7 +2,7 @@
 name = "blacknode-agent"
 version = "0.1.0"
 description = "Planning, memory, mission review, confirmation, and skill orchestration for Blacknode."
-requires-blacknode = ">=0.1.0"
+requires-blacknode = ">=0.3.0"
 layer = "agent"
 component-mode = true
 
