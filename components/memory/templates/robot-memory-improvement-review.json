@@ -1,0 +1,74 @@
+{
+  "kind": "blacknode.workflow",
+  "schema_version": 1,
+  "name": "Robot Memory and Improvement Review",
+  "saved_at": "2026-07-19T00:00:00Z",
+  "entrypoint": {"node_id": "recommendation", "port": "recommendation"},
+  "metadata": {
+    "template": true,
+    "description": "Safely check, ingest, evaluate, query, and review one robot attempt. All mutating actions require an explicit mode change.",
+    "color": "#14b8a6",
+    "required_packages": ["blacknode-agent"]
+  },
+  "node_meta": {
+    "task": {
+      "id": "task", "type": "RobotTaskCreate", "pos": [80, 120],
+      "params": {"memory_path": ".blacknode/memory/memory.db", "action": "check", "task_id": "", "task_name": "pick up green cube", "task_description": "Pick up the green cube and place it at the demonstrated target.", "robot_id": "", "environment": "real", "metadata": {}},
+      "inputs": ["memory_path", "action", "task_id", "task_name", "task_description", "robot_id", "environment", "metadata"],
+      "outputs": ["task_id", "task", "status", "dashboard", "report"],
+      "input_types": {"memory_path": "Text", "action": "Text", "task_id": "Text", "task_name": "Text", "task_description": "Text", "robot_id": "Text", "environment": "Text", "metadata": "Dict"},
+      "output_types": {"task_id": "Text", "task": "Dict", "status": "Text", "dashboard": "Image", "report": "Text"},
+      "input_defaults": {"memory_path": ".blacknode/memory/memory.db", "action": "check", "task_id": "", "task_name": "", "task_description": "", "robot_id": "", "environment": "real", "metadata": {}},
+      "input_choices": {"action": ["check", "create", "get"]}
+    },
+    "ingest": {
+      "id": "ingest", "type": "EpisodeMemoryIngest", "pos": [430, 120],
+      "params": {"memory_path": ".blacknode/memory/memory.db", "task_id": "", "dataset_root": "", "dataset_id": "", "episode_id": "0", "attempt_role": "deployment", "policy_run_path": "", "policy_artifact_path": "", "action": "check"},
+      "inputs": ["memory_path", "task_id", "dataset_root", "dataset_id", "episode_id", "attempt_role", "policy_run_path", "policy_artifact_path", "action"],
+      "outputs": ["attempt_id", "ingestion_status", "attempt", "warnings", "dashboard", "report"],
+      "input_types": {"memory_path": "Text", "task_id": "Text", "dataset_root": "Text", "dataset_id": "Text", "episode_id": "Text", "attempt_role": "Text", "policy_run_path": "Text", "policy_artifact_path": "Text", "action": "Text"},
+      "output_types": {"attempt_id": "Text", "ingestion_status": "Text", "attempt": "Dict", "warnings": "List", "dashboard": "Image", "report": "Text"},
+      "input_defaults": {"memory_path": ".blacknode/memory/memory.db", "task_id": "", "dataset_root": "", "dataset_id": "", "episode_id": "0", "attempt_role": "deployment", "policy_run_path": "", "policy_artifact_path": "", "action": "check"},
+      "input_choices": {"attempt_role": ["demonstration", "deployment", "replay", "simulation", "correction"], "action": ["check", "ingest", "status"]}
+    },
+    "evaluation": {
+      "id": "evaluation", "type": "TaskEvaluationRecord", "pos": [800, 120],
+      "params": {"memory_path": ".blacknode/memory/memory.db", "attempt_id": "", "evaluation": {"outcome": "unknown", "success": null, "confidence": 0.0, "summary": "Replace with the operator or external evaluator result.", "subtasks": [], "evidence": {}, "evaluator": {"type": "human", "name": "operator"}}, "action": "check"},
+      "inputs": ["memory_path", "attempt_id", "evaluation", "action"],
+      "outputs": ["evaluation_status", "success", "outcome", "confidence", "failed_subtask", "evaluation", "dashboard", "report"],
+      "input_types": {"memory_path": "Text", "attempt_id": "Text", "evaluation": "Dict", "action": "Text"},
+      "output_types": {"evaluation_status": "Text", "success": "Bool", "outcome": "Text", "confidence": "Float", "failed_subtask": "Text", "evaluation": "Dict", "dashboard": "Image", "report": "Text"},
+      "input_defaults": {"memory_path": ".blacknode/memory/memory.db", "attempt_id": "", "evaluation": {}, "action": "check"},
+      "input_choices": {"action": ["check", "record", "status"]}
+    },
+    "query": {
+      "id": "query", "type": "RobotMemoryQuery", "pos": [800, 480],
+      "params": {"memory_path": ".blacknode/memory/memory.db", "task_id": "", "query_type": "task_history", "limit": 20, "policy_version": "", "outcome": "", "failure_type": ""},
+      "inputs": ["trigger", "memory_path", "task_id", "query_type", "limit", "policy_version", "outcome", "failure_type"],
+      "outputs": ["results", "summary", "count", "dashboard", "report"],
+      "input_types": {"trigger": "Any", "memory_path": "Text", "task_id": "Text", "query_type": "Text", "limit": "Int", "policy_version": "Text", "outcome": "Text", "failure_type": "Text"},
+      "output_types": {"results": "List", "summary": "Dict", "count": "Int", "dashboard": "Image", "report": "Text"},
+      "input_defaults": {"trigger": null, "memory_path": ".blacknode/memory/memory.db", "task_id": "", "query_type": "task_history", "limit": 20, "policy_version": "", "outcome": "", "failure_type": ""},
+      "input_choices": {"query_type": ["task_history", "recent_attempts", "recent_failures", "subtask_failure_counts", "successful_attempts", "policy_performance", "latest_task_state"], "outcome": ["", "failure", "interrupted", "partial", "success", "unknown", "unsafe"]}
+    },
+    "recommendation": {
+      "id": "recommendation", "type": "AdaptationRecommendation", "pos": [1190, 300],
+      "params": {"memory_path": ".blacknode/memory/memory.db", "action": "check", "task": {}, "latest_attempt": {}, "memory_summary": {}, "minimum_confidence": 0.7, "repeated_failure_threshold": 2, "new_correction_threshold": 3},
+      "inputs": ["memory_path", "action", "task", "latest_attempt", "memory_summary", "minimum_confidence", "repeated_failure_threshold", "new_correction_threshold"],
+      "outputs": ["recommended_action", "reason", "priority", "requires_human_review", "supporting_attempt_ids", "recommendation", "recommendation_status", "dashboard"],
+      "input_types": {"memory_path": "Text", "action": "Text", "task": "Dict", "latest_attempt": "Dict", "memory_summary": "Dict", "minimum_confidence": "Float", "repeated_failure_threshold": "Int", "new_correction_threshold": "Int"},
+      "output_types": {"recommended_action": "Text", "reason": "Text", "priority": "Text", "requires_human_review": "Bool", "supporting_attempt_ids": "List", "recommendation": "Dict", "recommendation_status": "Text", "dashboard": "Image"},
+      "input_defaults": {"memory_path": ".blacknode/memory/memory.db", "action": "check", "task": {}, "latest_attempt": {}, "memory_summary": {}, "minimum_confidence": 0.7, "repeated_failure_threshold": 2, "new_correction_threshold": 3},
+      "input_choices": {"action": ["check", "record"]}
+    }
+  },
+  "edges": [
+    {"from": "task", "from_port": "task_id", "to": "ingest", "to_port": "task_id"},
+    {"from": "ingest", "from_port": "attempt_id", "to": "evaluation", "to_port": "attempt_id"},
+    {"from": "evaluation", "from_port": "evaluation", "to": "query", "to_port": "trigger"},
+    {"from": "task", "from_port": "task_id", "to": "query", "to_port": "task_id"},
+    {"from": "task", "from_port": "task", "to": "recommendation", "to_port": "task"},
+    {"from": "ingest", "from_port": "attempt", "to": "recommendation", "to_port": "latest_attempt"},
+    {"from": "query", "from_port": "summary", "to": "recommendation", "to_port": "memory_summary"}
+  ]
+}

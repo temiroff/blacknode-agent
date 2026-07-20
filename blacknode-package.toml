@@ -6,6 +6,9 @@ requires-blacknode = ">=0.3.0"
 layer = "agent"
 component-mode = true
 
+[categories]
+"Robot Memory" = "#14b8a6"
+
 [components.planner]
 description = "Mission and task planning over registered capabilities."
 default = false
@@ -27,6 +30,16 @@ default = false
 capabilities = ["agent.confirmation"]
 
 [components.memory]
-description = "Mission-scoped and durable agent memory contracts."
-default = false
+description = "Persistent robot task, attempt, evaluation, failure, and policy memory with conservative improvement recommendations."
+default = true
 capabilities = ["agent.memory"]
+nodes = ["components/memory/nodes"]
+templates = ["components/memory/templates"]
+node-types = [
+  "RobotTaskCreate", "EpisodeMemoryIngest", "TaskEvaluationRecord",
+  "RobotMemoryQuery", "AdaptationRecommendation",
+]
+
+[components.memory.dependencies]
+pip = []
+imports = []
