@@ -1,7 +1,7 @@
 {
   "kind": "blacknode.workflow",
   "schema_version": 1,
-  "name": "Robot Memory and Improvement Review",
+  "name": "Improvement Review",
   "saved_at": "2026-07-19T00:00:00Z",
   "entrypoint": {"node_id": "recommendation", "port": "recommendation"},
   "metadata": {
