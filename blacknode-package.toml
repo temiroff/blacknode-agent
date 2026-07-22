@@ -36,8 +36,8 @@ capabilities = ["agent.memory"]
 nodes = ["components/memory/nodes"]
 templates = ["components/memory/templates"]
 node-types = [
-  "RobotTaskCreate", "EpisodeMemoryIngest", "TaskEvaluationRecord",
-  "RobotMemoryQuery", "AdaptationRecommendation",
+  "AdaptationRecommendation", "EpisodeMemoryIngest", "RobotMemoryQuery", "RobotTaskCreate",
+  "TaskEvaluationRecord"
 ]
 
 [components.memory.dependencies]
