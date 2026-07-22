@@ -16,7 +16,7 @@ from .recommendations import recommend_next_action
 from .schemas import OUTCOMES, validate_evaluation
 from .store import DEFAULT_MEMORY_PATH, MemoryStore, content_fingerprint, stable_id
 
-_CATEGORY = "Robot Memory"
+_CATEGORY = "Agent"
 
 
 def _memory_path(value: Any) -> Path:

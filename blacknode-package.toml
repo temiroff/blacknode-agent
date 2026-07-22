@@ -7,7 +7,7 @@ layer = "agent"
 component-mode = true
 
 [categories]
-"Robot Memory" = "#14b8a6"
+"Agent" = "#14b8a6"
 
 [components.planner]
 description = "Mission and task planning over registered capabilities."
