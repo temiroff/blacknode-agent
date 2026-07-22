@@ -7,7 +7,7 @@ layer = "agent"
 component-mode = true
 
 [categories]
-"Agent" = "#14b8a6"
+"Agent" = "#d946ef"
 
 [components.planner]
 description = "Mission and task planning over registered capabilities."
