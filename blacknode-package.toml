@@ -1,6 +1,6 @@
 [package]
 name = "blacknode-agent"
-version = "0.2.0"
+version = "0.3.0"
 description = "Persistent memory and executive mission orchestration for Blacknode."
 requires-blacknode = ">=0.3.0"
 layer = "agent"
@@ -12,6 +12,8 @@ component-mode = true
 [components.executive]
 description = "Task planning, mission execution, skill selection, confirmation, and mission review."
 default = false
+aliases = ["planner"]
+deprecated-aliases = { planner = { replacement = "executive", removal-version = "1.0.0" } }
 capabilities = [
   "agent.executive", "agent.task-planner", "agent.mission-runner",
   "agent.skill-registry", "agent.confirmation", "agent.mission-review",

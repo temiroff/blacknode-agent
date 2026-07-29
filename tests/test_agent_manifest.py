@@ -10,4 +10,8 @@ def test_agent_layer_catalog_exposes_memory_and_executive_only():
     assert info.component_mode is True
     assert info.enabled_components == ["memory"]
     assert set(info.components) == {"memory", "executive"}
-    assert info.components["executive"]["aliases"] == []
+    assert info.components["executive"]["aliases"] == ["planner"]
+    assert info.components["executive"]["deprecated_aliases"]["planner"] == {
+        "replacement": "executive",
+        "removal_version": "1.0.0",
+    }
