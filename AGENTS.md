@@ -2,7 +2,8 @@
 
 This is an independent Blacknode extension-package repository.
 
-Keep planners, skill selection, mission review, confirmation, and memory here.
+Keep persistent memory in `memory`. Keep task planning, mission execution,
+skill selection, mission review, and confirmation under `executive`.
 Use robot capability contracts instead of vendor SDKs, device paths, or direct
 hardware transports. A planner may request motion but never bypass controller
 authorization, safety supervision, or explicit confirmation. Declare component

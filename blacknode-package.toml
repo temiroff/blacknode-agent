@@ -1,7 +1,7 @@
 [package]
 name = "blacknode-agent"
-version = "0.1.0"
-description = "Planning, memory, mission review, confirmation, and skill orchestration for Blacknode."
+version = "0.2.0"
+description = "Persistent memory and executive mission orchestration for Blacknode."
 requires-blacknode = ">=0.3.0"
 layer = "agent"
 component-mode = true
@@ -9,25 +9,13 @@ component-mode = true
 [categories]
 "Agent" = "#d946ef"
 
-[components.planner]
-description = "Mission and task planning over registered capabilities."
+[components.executive]
+description = "Task planning, mission execution, skill selection, confirmation, and mission review."
 default = false
-capabilities = ["agent.planner"]
-
-[components.skill-registry]
-description = "Discovery and selection of installed task skills."
-default = false
-capabilities = ["agent.skill-registry"]
-
-[components.mission-review]
-description = "Preflight mission review and explainable execution plans."
-default = false
-capabilities = ["agent.mission-review"]
-
-[components.confirmation]
-description = "Human confirmation gates for consequential actions."
-default = false
-capabilities = ["agent.confirmation"]
+capabilities = [
+  "agent.executive", "agent.task-planner", "agent.mission-runner",
+  "agent.skill-registry", "agent.confirmation", "agent.mission-review",
+]
 
 [components.memory]
 description = "Persistent robot task, attempt, evaluation, failure, and policy memory with conservative improvement recommendations."
